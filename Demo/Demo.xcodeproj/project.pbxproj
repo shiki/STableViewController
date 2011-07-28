@@ -13,7 +13,7 @@
 		57FD970013E1447200910AB8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 57FD96FE13E1447200910AB8 /* InfoPlist.strings */; };
 		57FD970313E1447200910AB8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 57FD970213E1447200910AB8 /* main.m */; };
 		57FD970613E1447200910AB8 /* DemoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 57FD970513E1447200910AB8 /* DemoAppDelegate.m */; };
-		57FD970C13E1447200910AB8 /* DemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 57FD970B13E1447200910AB8 /* DemoViewController.m */; };
+		57FD970C13E1447200910AB8 /* DemoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 57FD970B13E1447200910AB8 /* DemoTableViewController.m */; };
 		57FD972913E1456400910AB8 /* STableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 57FD972813E1456400910AB8 /* STableViewController.m */; };
 		57FD972D13E1458200910AB8 /* DemoTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 57FD972B13E1458200910AB8 /* DemoTableHeaderView.m */; };
 		57FD972E13E1458200910AB8 /* DemoTableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 57FD972C13E1458200910AB8 /* DemoTableHeaderView.xib */; };
@@ -30,8 +30,8 @@
 		57FD970213E1447200910AB8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		57FD970413E1447200910AB8 /* DemoAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DemoAppDelegate.h; sourceTree = "<group>"; };
 		57FD970513E1447200910AB8 /* DemoAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoAppDelegate.m; sourceTree = "<group>"; };
-		57FD970A13E1447200910AB8 /* DemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DemoViewController.h; sourceTree = "<group>"; };
-		57FD970B13E1447200910AB8 /* DemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoViewController.m; sourceTree = "<group>"; };
+		57FD970A13E1447200910AB8 /* DemoTableViewController.h */ = {isa = PBXFileReference; path = DemoTableViewController.h; sourceTree = "<group>"; };
+		57FD970B13E1447200910AB8 /* DemoTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoTableViewController.m; sourceTree = "<group>"; };
 		57FD972713E1456400910AB8 /* STableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STableViewController.h; sourceTree = "<group>"; };
 		57FD972813E1456400910AB8 /* STableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STableViewController.m; sourceTree = "<group>"; };
 		57FD972A13E1458200910AB8 /* DemoTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoTableHeaderView.h; sourceTree = "<group>"; };
@@ -86,8 +86,8 @@
 			children = (
 				57FD970413E1447200910AB8 /* DemoAppDelegate.h */,
 				57FD970513E1447200910AB8 /* DemoAppDelegate.m */,
-				57FD970A13E1447200910AB8 /* DemoViewController.h */,
-				57FD970B13E1447200910AB8 /* DemoViewController.m */,
+				57FD970A13E1447200910AB8 /* DemoTableViewController.h */,
+				57FD970B13E1447200910AB8 /* DemoTableViewController.m */,
 				57FD972A13E1458200910AB8 /* DemoTableHeaderView.h */,
 				57FD972B13E1458200910AB8 /* DemoTableHeaderView.m */,
 				57FD972C13E1458200910AB8 /* DemoTableHeaderView.xib */,
@@ -178,7 +178,7 @@
 			files = (
 				57FD970313E1447200910AB8 /* main.m in Sources */,
 				57FD970613E1447200910AB8 /* DemoAppDelegate.m in Sources */,
-				57FD970C13E1447200910AB8 /* DemoViewController.m in Sources */,
+				57FD970C13E1447200910AB8 /* DemoTableViewController.m in Sources */,
 				57FD972913E1456400910AB8 /* STableViewController.m in Sources */,
 				57FD972D13E1458200910AB8 /* DemoTableHeaderView.m in Sources */,
 			);

@@ -1,12 +1,25 @@
 
-#import "DemoViewController.h"
+#import "DemoTableViewController.h"
 #import "DemoTableHeaderView.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-@implementation DemoViewController
+@implementation DemoTableViewController
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+- (void) addSampleItem
+{
+  NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+  [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+  [items insertObject:[dateFormatter stringFromDate:[NSDate date]] atIndex:0];
+  
+  [self.tableView reloadData];
+  
+  // call this so the header will be hidden
+  [self refreshCompleted];
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void) viewDidLoad
@@ -16,12 +29,15 @@
   NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"DemoTableHeaderView" owner:self options:nil];
   DemoTableHeaderView *headerView = (DemoTableHeaderView *)[nib objectAtIndex:0];
   self.headerView = headerView;
+  
+  items = [[NSMutableArray alloc] init];
+  [self addSampleItem];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  return 10;
+  return items.count;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,7 +50,7 @@
     cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
   }
   
-  cell.textLabel.text = @"Sample";
+  cell.textLabel.text = [items objectAtIndex:indexPath.row];
   
   // Configure the cell.
   return cell;
@@ -64,6 +80,12 @@
     hv.title.text = @"Release to refresh...";
   else
     hv.title.text = @"Pull down to refresh...";
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+- (void) refresh
+{
+  [self performSelector:@selector(addSampleItem) withObject:nil afterDelay:2.0];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

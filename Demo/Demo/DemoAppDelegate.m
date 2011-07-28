@@ -1,7 +1,7 @@
 
 
 #import "DemoAppDelegate.h"
-#import "DemoViewController.h"
+#import "DemoTableViewController.h"
 
 
 @implementation DemoAppDelegate
@@ -13,7 +13,7 @@
 {
 	self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
   
-  DemoViewController *vc = [[[DemoViewController alloc] init] autorelease];
+  DemoTableViewController *vc = [[[DemoTableViewController alloc] init] autorelease];
   self.navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
   
   self.window.rootViewController = navigationController;
