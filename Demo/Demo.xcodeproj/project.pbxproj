@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5763FDED13E272D8001A7D88 /* DemoTableFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5763FDEC13E272D8001A7D88 /* DemoTableFooterView.m */; };
+		5763FDF013E272F0001A7D88 /* DemoTableFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5763FDEF13E272F0001A7D88 /* DemoTableFooterView.xib */; };
 		57FD96F613E1447200910AB8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57FD96F513E1447200910AB8 /* UIKit.framework */; };
 		57FD96F813E1447200910AB8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57FD96F713E1447200910AB8 /* Foundation.framework */; };
 		57FD96FA13E1447200910AB8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57FD96F913E1447200910AB8 /* CoreGraphics.framework */; };
@@ -20,6 +22,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5763FDEB13E272D8001A7D88 /* DemoTableFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoTableFooterView.h; sourceTree = "<group>"; };
+		5763FDEC13E272D8001A7D88 /* DemoTableFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoTableFooterView.m; sourceTree = "<group>"; };
+		5763FDEF13E272F0001A7D88 /* DemoTableFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DemoTableFooterView.xib; sourceTree = "<group>"; };
 		57FD96F113E1447200910AB8 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57FD96F513E1447200910AB8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		57FD96F713E1447200910AB8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -30,7 +35,7 @@
 		57FD970213E1447200910AB8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		57FD970413E1447200910AB8 /* DemoAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DemoAppDelegate.h; sourceTree = "<group>"; };
 		57FD970513E1447200910AB8 /* DemoAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoAppDelegate.m; sourceTree = "<group>"; };
-		57FD970A13E1447200910AB8 /* DemoTableViewController.h */ = {isa = PBXFileReference; path = DemoTableViewController.h; sourceTree = "<group>"; };
+		57FD970A13E1447200910AB8 /* DemoTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DemoTableViewController.h; sourceTree = "<group>"; };
 		57FD970B13E1447200910AB8 /* DemoTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoTableViewController.m; sourceTree = "<group>"; };
 		57FD972713E1456400910AB8 /* STableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STableViewController.h; sourceTree = "<group>"; };
 		57FD972813E1456400910AB8 /* STableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STableViewController.m; sourceTree = "<group>"; };
@@ -88,6 +93,9 @@
 				57FD970513E1447200910AB8 /* DemoAppDelegate.m */,
 				57FD970A13E1447200910AB8 /* DemoTableViewController.h */,
 				57FD970B13E1447200910AB8 /* DemoTableViewController.m */,
+				5763FDEB13E272D8001A7D88 /* DemoTableFooterView.h */,
+				5763FDEC13E272D8001A7D88 /* DemoTableFooterView.m */,
+				5763FDEF13E272F0001A7D88 /* DemoTableFooterView.xib */,
 				57FD972A13E1458200910AB8 /* DemoTableHeaderView.h */,
 				57FD972B13E1458200910AB8 /* DemoTableHeaderView.m */,
 				57FD972C13E1458200910AB8 /* DemoTableHeaderView.xib */,
@@ -166,6 +174,7 @@
 			files = (
 				57FD970013E1447200910AB8 /* InfoPlist.strings in Resources */,
 				57FD972E13E1458200910AB8 /* DemoTableHeaderView.xib in Resources */,
+				5763FDF013E272F0001A7D88 /* DemoTableFooterView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,6 +190,7 @@
 				57FD970C13E1447200910AB8 /* DemoTableViewController.m in Sources */,
 				57FD972913E1456400910AB8 /* STableViewController.m in Sources */,
 				57FD972D13E1458200910AB8 /* DemoTableHeaderView.m in Sources */,
+				5763FDED13E272D8001A7D88 /* DemoTableFooterView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

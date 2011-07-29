@@ -3,7 +3,6 @@
 //  STableViewController
 //
 //  Created by Shiki on 7/27/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -15,14 +14,27 @@
   
   BOOL isDragging;
   BOOL isRefreshing;
+  BOOL isLoadingMore;
+  BOOL noMoreItemToLoad;
   
   // had to store this because the headerView's frame seems to be changed somewhere during scrolling
   // and I couldn't figure out why >.<
   CGRect headerViewFrame;
 }
 
+// The view used for "pull to refresh"
 @property (nonatomic, retain) UIView *headerView;
+
+// The view used for "load more"
+@property (nonatomic, retain) UIView *footerView;
+
 @property (nonatomic, retain) UITableView *tableView;
+@property (readonly) BOOL isDragging;
+@property (readonly) BOOL isRefreshing;
+@property (readonly) BOOL isLoadingMore;
+@property (readonly) BOOL noMoreItemsToLoad;
+
+#pragma mark - Pull to Refresh
 
 // The minimum height that the user should drag down in order to trigger a "refresh" when
 // dragging ends. 
@@ -51,5 +63,21 @@
 
 // Call to signal that refresh has completed. This will then hide the headerView.
 - (void) refreshCompleted;
+
+#pragma mark - Load More
+
+- (CGFloat) footerLoadMoreHeight;
+
+// Override to perform fetching of next page of data
+- (BOOL) loadMore;
+
+//
+- (void) willBeginLoadingMore;
+
+// 
+- (void) loadMoreCompleted:(BOOL)noMoreItemsToLoad;
+
+//
+- (void) hideFooterView;
 
 @end

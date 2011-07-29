@@ -3,10 +3,11 @@
 //  STableViewController
 //
 //  Created by Shiki on 7/27/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
 #import "STableViewController.h"
+
+#define DEFAULT_HEIGHT_OFFSET 52.0f
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -15,6 +16,12 @@
 
 @synthesize tableView;
 @synthesize headerView;
+@synthesize footerView;
+
+@synthesize isDragging;
+@synthesize isRefreshing;
+@synthesize isLoadingMore;
+@synthesize noMoreItemsToLoad;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void) viewDidLoad
@@ -22,16 +29,17 @@
   [super viewDidLoad];
   
   self.tableView = [[[UITableView alloc] init] autorelease];
-  // @todo the height needs to be fixed (in cases where there is a navigation bar)
-  //tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
   tableView.frame = self.view.bounds;
   tableView.autoresizingMask =  UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-  NSLog(@"%@", NSStringFromCGRect(self.view.bounds));
   tableView.dataSource = self;
   tableView.delegate = self;
   
   [self.view addSubview:tableView];
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Pull to Refresh
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void) setHeaderView:(UIView *)aView
@@ -60,7 +68,7 @@
   if (!CGRectIsEmpty(headerViewFrame))
     return headerViewFrame.size.height;
   else
-    return 52;
+    return DEFAULT_HEIGHT_OFFSET;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,6 +105,65 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Load More
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+- (void) setFooterView:(UIView *)aView
+{
+  if (!tableView)
+    return;
+  
+  tableView.tableFooterView = nil;
+  [footerView release]; footerView = nil;
+  
+  if (aView) {
+    footerView = [aView retain];
+    
+    tableView.tableFooterView = footerView;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+- (void) willBeginLoadingMore
+{
+  
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+- (void) loadMoreCompleted:(BOOL)noMoreItemsToLoadValue
+{
+  isLoadingMore = NO;
+  noMoreItemsToLoad = noMoreItemsToLoadValue;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+- (BOOL) loadMore
+{
+  if (isLoadingMore)
+    return NO;
+  
+  [self willBeginLoadingMore];
+  isLoadingMore = YES;  
+  return YES;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+- (void) hideFooterView
+{
+  self.tableView.tableFooterView = nil;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+- (CGFloat) footerLoadMoreHeight
+{
+  if (footerView)
+    return footerView.frame.size.height;
+  else
+    return DEFAULT_HEIGHT_OFFSET;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - UIScrollViewDelegate
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,11 +177,15 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView
 {
-  if (isRefreshing) {
-    
-  } else if (isDragging && scrollView.contentOffset.y < 0)  {
+  if (isDragging && scrollView.contentOffset.y < 0) {
     [self headerViewDidScroll:scrollView.contentOffset.y < 0 - [self headerRefreshHeight] 
-                   scrollView:scrollView];
+                     scrollView:scrollView];
+  } else if (!isLoadingMore && !isRefreshing && !noMoreItemsToLoad) {
+    CGFloat scrollPosition = scrollView.contentSize.height - scrollView.frame.size.height - scrollView.contentOffset.y;
+    //NSLog(@"offset: %f < %f", [self footerLoadMoreHeight], scrollPosition);
+    if (scrollPosition < [self footerLoadMoreHeight]) {
+      [self loadMore];
+    }
   }
 }
 
