@@ -21,7 +21,8 @@
 @synthesize isDragging;
 @synthesize isRefreshing;
 @synthesize isLoadingMore;
-@synthesize noMoreItemsToLoad;
+
+@synthesize canLoadMore;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void) viewDidLoad
@@ -35,6 +36,8 @@
   tableView.delegate = self;
   
   [self.view addSubview:tableView];
+  
+  canLoadMore = YES;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,10 +133,9 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-- (void) loadMoreCompleted:(BOOL)noMoreItemsToLoadValue
+- (void) loadMoreCompleted
 {
   isLoadingMore = NO;
-  noMoreItemsToLoad = noMoreItemsToLoadValue;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -180,7 +182,7 @@
   if (isDragging && scrollView.contentOffset.y < 0) {
     [self headerViewDidScroll:scrollView.contentOffset.y < 0 - [self headerRefreshHeight] 
                      scrollView:scrollView];
-  } else if (!isLoadingMore && !isRefreshing && !noMoreItemsToLoad) {
+  } else if (!isLoadingMore && !isRefreshing && canLoadMore) {
     CGFloat scrollPosition = scrollView.contentSize.height - scrollView.frame.size.height - scrollView.contentOffset.y;
     //NSLog(@"offset: %f < %f", [self footerLoadMoreHeight], scrollPosition);
     if (scrollPosition < [self footerLoadMoreHeight]) {

@@ -8,18 +8,15 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation DemoTableViewController
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-- (void) addSampleItem
+// Helper
+- (NSString *) createRandomValue
 {
   NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
   [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-  [items insertObject:[dateFormatter stringFromDate:[NSDate date]] atIndex:0];
   
-  [self.tableView reloadData];
-  
-  // call this so the header will be hidden
-  [self refreshCompleted];
+  return [NSString stringWithFormat:@"%@ %@", [dateFormatter stringFromDate:[NSDate date]],
+          [NSNumber numberWithInt:rand()]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,31 +24,20 @@
 {
   [super viewDidLoad];
   
-  // set the custom view for "pull to refresh"
+  // set the custom view for "pull to refresh". See DemoTableHeaderView.xib.
   NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"DemoTableHeaderView" owner:self options:nil];
   DemoTableHeaderView *headerView = (DemoTableHeaderView *)[nib objectAtIndex:0];
   self.headerView = headerView;
   
-  // set the custom view for "load more"
+  // set the custom view for "load more". See DemoTableFooterView.xib.
   nib = [[NSBundle mainBundle] loadNibNamed:@"DemoTableFooterView" owner:self options:nil];
   DemoTableFooterView *footerView = (DemoTableFooterView *)[nib objectAtIndex:0];
   self.footerView = footerView;
   
   // add sample items
   items = [[NSMutableArray alloc] init];
-  [self addSampleItem];
-  [self addSampleItem];
-  [self addSampleItem];
-  [self addSampleItem];
-  [self addSampleItem];
-  [self addSampleItem];
-  [self addSampleItem];
-  [self addSampleItem];
-  [self addSampleItem];
-  [self addSampleItem];
-  [self addSampleItem];
-  [self addSampleItem];
-  [self addSampleItem]; // lazy :p (will refactor later)
+  for (int i = 0; i < 10; i++)
+    [items addObject:[self createRandomValue]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,9 +61,15 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Pull to Refresh
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void) pinHeaderView
 {
   [super pinHeaderView];
+  
+  // do custom handling for the header view
   DemoTableHeaderView *hv = (DemoTableHeaderView *)self.headerView;
   [hv.activityIndicator startAnimating];
   hv.title.text = @"Loading...";
@@ -87,10 +79,15 @@
 - (void) unpinHeaderView
 {
   [super unpinHeaderView];
+  
+  // do custom handling for the header view
   [[(DemoTableHeaderView *)self.headerView activityIndicator] stopAnimating];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Update the header text while the user is dragging
+//
 - (void) headerViewDidScroll:(BOOL)willRefreshOnRelease scrollView:(UIScrollView *)scrollView
 {
   DemoTableHeaderView *hv = (DemoTableHeaderView *)self.headerView;
@@ -101,13 +98,35 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-- (void) refresh
+- (void) addItemsOnTop
 {
-  // do your async calls here
-  [self performSelector:@selector(addSampleItem) withObject:nil afterDelay:2.0];
+  for (int i = 0; i < 3; i++)
+    [items insertObject:[self createRandomValue] atIndex:0];
+  [self.tableView reloadData];
+  
+  // Call this to indicate that we have finished "refreshing".
+  // This will then result in the headerView being unpinned (-unpinHeaderView will be called).
+  [self refreshCompleted];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// refresh the list. Do your async calls here.
+//
+- (void) refresh
+{
+  [self performSelector:@selector(addItemsOnTop) withObject:nil afterDelay:2.0];
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Load More
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// The method -loadMore was called and will begin fetching data for the next page (more). 
+// Do custom handling of -footerView if you need to.
+//
 - (void) willBeginLoadingMore
 {
   DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
@@ -115,37 +134,41 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)loadMoreCompleted:(BOOL)noMoreItemsToLoadValue
+//
+// Do UI handling after the "load more" process was completed. In this example, -footerView will
+// show a "No more items to load" text.
+//
+- (void)loadMoreCompleted
 {
-  [super loadMoreCompleted:noMoreItemsToLoadValue];
-  
+  [super loadMoreCompleted];
+
   DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
   [fv.activityIndicator stopAnimating];
   
-  if (noMoreItemsToLoadValue) {
-    // do something if there are no more items to load
-    self.footerView = nil;    
+  if (!self.canLoadMore) {
+    // Do something if there are no more items to load
+    
+    // We can remove the footerView by: self.footerView = nil;    
+    
+    // Just show a textual info that there are no more items to load
+    fv.infoLabel.hidden = NO;
   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-- (void) completeLoadMore
+- (void) addItemsOnBottom
 {
-  NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-  [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-  NSString *date = [dateFormatter stringFromDate:[NSDate date]];
-  [items addObject:date];
-  [items addObject:[date copy]];
-  [items addObject:[date copy]];
-  [items addObject:[date copy]];
-  [items addObject:[date copy]];
+  for (int i = 0; i < 5; i++)
+    [items addObject:[self createRandomValue]];  
   
   [self.tableView reloadData];
   
-  if (items.count > 30)
-    [self loadMoreCompleted:YES]; // signal that there won't be any more items to load
+  if (items.count > 50)
+    self.canLoadMore = NO; // signal that there won't be any more items to load
   else
-    [self loadMoreCompleted:NO];
+    self.canLoadMore = YES;
+  
+  [self loadMoreCompleted];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -154,7 +177,7 @@
   if (![super loadMore])
     return NO;
   
-  [self performSelector:@selector(completeLoadMore) withObject:nil afterDelay:2.0];
+  [self performSelector:@selector(addItemsOnBottom) withObject:nil afterDelay:2.0];
   
   return YES;
 }

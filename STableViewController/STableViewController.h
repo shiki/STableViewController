@@ -15,7 +15,6 @@
   BOOL isDragging;
   BOOL isRefreshing;
   BOOL isLoadingMore;
-  BOOL noMoreItemToLoad;
   
   // had to store this because the headerView's frame seems to be changed somewhere during scrolling
   // and I couldn't figure out why >.<
@@ -32,7 +31,7 @@
 @property (readonly) BOOL isDragging;
 @property (readonly) BOOL isRefreshing;
 @property (readonly) BOOL isLoadingMore;
-@property (readonly) BOOL noMoreItemsToLoad;
+@property (nonatomic) BOOL canLoadMore;
 
 #pragma mark - Pull to Refresh
 
@@ -75,7 +74,7 @@
 - (void) willBeginLoadingMore;
 
 // 
-- (void) loadMoreCompleted:(BOOL)noMoreItemsToLoad;
+- (void) loadMoreCompleted;
 
 //
 - (void) hideFooterView;

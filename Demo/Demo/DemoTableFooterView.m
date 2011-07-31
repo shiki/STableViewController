@@ -12,10 +12,12 @@
 @implementation DemoTableFooterView
 
 @synthesize activityIndicator;
+@synthesize infoLabel;
 
 - (void)dealloc
 {
   [activityIndicator release];
+  [infoLabel release];
   [super dealloc];
 }
 
