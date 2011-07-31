@@ -152,7 +152,7 @@
   if (!self.canLoadMore) {
     // Do something if there are no more items to load
     
-    // We can remove the footerView by: self.footerView = nil;    
+    // We can hide the footerView by: [self setFooterViewVisibility:NO];
     
     // Just show a textual info that there are no more items to load
     fv.infoLabel.hidden = NO;

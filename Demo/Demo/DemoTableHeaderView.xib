@@ -49,7 +49,6 @@
 						<string key="NSFrame">{{42, 17}, {237, 21}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -129,6 +128,7 @@
 							<reference ref="390947881"/>
 						</object>
 						<reference key="parent" ref="0"/>
+						<string key="objectName">Demo Table Header View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">-1</int>

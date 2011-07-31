@@ -9,7 +9,7 @@
 
 
 @interface STableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-
+  
 @protected
   
   BOOL isDragging;
@@ -80,5 +80,13 @@
 // Call to signal that "load more" was completed. This should be called so -isLoadingMore is
 // properly set to NO.
 - (void) loadMoreCompleted;
+
+// Helper to show/hide -footerView
+- (void) setFooterViewVisibility:(BOOL)visible;
+
+#pragma mark - 
+
+// A helper method that calls refreshCompleted and/or loadMoreCompleted if any are active.
+- (void) allLoadingCompleted;
 
 @end

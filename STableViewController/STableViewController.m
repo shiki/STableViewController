@@ -180,6 +180,25 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+- (void) setFooterViewVisibility:(BOOL)visible
+{
+  self.tableView.tableFooterView = visible ? footerView : nil;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+- (void) allLoadingCompleted
+{
+  if (isRefreshing)
+    [self refreshCompleted];
+  if (isLoadingMore)
+    [self loadMoreCompleted];
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - UIScrollViewDelegate
 
@@ -194,12 +213,11 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView
 {
-  if (isDragging && scrollView.contentOffset.y < 0) {
+  if (!isRefreshing && isDragging && scrollView.contentOffset.y < 0) {
     [self headerViewDidScroll:scrollView.contentOffset.y < 0 - [self headerRefreshHeight] 
-                     scrollView:scrollView];
-  } else if (!isLoadingMore && !isRefreshing && canLoadMore) {
+                   scrollView:scrollView];
+  } else if (!isLoadingMore && canLoadMore) {
     CGFloat scrollPosition = scrollView.contentSize.height - scrollView.frame.size.height - scrollView.contentOffset.y;
-    //NSLog(@"offset: %f < %f", [self footerLoadMoreHeight], scrollPosition);
     if (scrollPosition < [self footerLoadMoreHeight]) {
       [self loadMore];
     }
@@ -250,6 +268,7 @@
   [super viewDidUnload];
   
   self.headerView = nil;
+  self.footerView = nil;
   self.tableView = nil;
 }
 
