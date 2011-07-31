@@ -113,9 +113,13 @@
 //
 // refresh the list. Do your async calls here.
 //
-- (void) refresh
+- (BOOL) refresh
 {
+  if (![super refresh])
+    return NO;
+  
   [self performSelector:@selector(addItemsOnTop) withObject:nil afterDelay:2.0];
+  return YES;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

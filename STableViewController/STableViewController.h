@@ -57,26 +57,28 @@
 // Called when the user stops dragging and, if the conditions are met, will trigger a refresh.
 - (void) willBeginRefresh;
 
-// Override to perform fetching of data.
-- (void) refresh;
+// Override to perform fetching of data. The parent method [super refresh] should be called first.
+// If the value is NO, -refresh should be aborted.
+- (BOOL) refresh;
 
 // Call to signal that refresh has completed. This will then hide the headerView.
 - (void) refreshCompleted;
 
 #pragma mark - Load More
 
+// The value of the height starting from the bottom that the user needs to scroll down to in order
+// to trigger -loadMore. By default, this will be the height of -footerView.
 - (CGFloat) footerLoadMoreHeight;
 
-// Override to perform fetching of next page of data
+// Override to perform fetching of next page of data. It's important to call and get the value of
+// of [super loadMore] first. If it's NO, -loadMore should be aborted.
 - (BOOL) loadMore;
 
-//
+// Called when all the conditions are met and -loadMore will begin.
 - (void) willBeginLoadingMore;
 
-// 
+// Call to signal that "load more" was completed. This should be called so -isLoadingMore is
+// properly set to NO.
 - (void) loadMoreCompleted;
-
-//
-- (void) hideFooterView;
 
 @end
