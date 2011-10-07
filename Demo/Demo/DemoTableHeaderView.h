@@ -1,9 +1,7 @@
 //
-//  DemoTableHeaderView.h
-//  STableViewController
+// DemoTableHeaderView.h
 //
-//  Created by Shiki on 7/27/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+// @author Shiki
 //
 
 #import <UIKit/UIKit.h>

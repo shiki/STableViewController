@@ -1,3 +1,9 @@
+//
+// DemoTableViewController.m
+//
+// @author Shiki
+//
+
 
 #import "DemoTableViewController.h"
 #import "DemoTableHeaderView.h"
@@ -6,23 +12,25 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-@implementation DemoTableViewController
+@interface DemoTableViewController ()
+// Private helper methods
+- (void) addItemsOnTop;
+- (void) addItemsOnBottom;
+- (NSString *) createRandomValue;
+@end
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// Helper
-- (NSString *) createRandomValue
-{
-  NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-  [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-  
-  return [NSString stringWithFormat:@"%@ %@", [dateFormatter stringFromDate:[NSDate date]],
-          [NSNumber numberWithInt:rand()]];
-}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation DemoTableViewController
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void) viewDidLoad
 {
   [super viewDidLoad];
+  
+  self.title = @"STableViewController Demo";
+  [self.tableView setBackgroundColor:[UIColor darkGrayColor]];
   
   // set the custom view for "pull to refresh". See DemoTableHeaderView.xib.
   NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"DemoTableHeaderView" owner:self options:nil];
@@ -38,26 +46,6 @@
   items = [[NSMutableArray alloc] init];
   for (int i = 0; i < 10; i++)
     [items addObject:[self createRandomValue]];
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-  return items.count;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-  static NSString *CellIdentifier = @"Cell";
-  
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-  if (cell == nil) {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-  }
-  
-  cell.textLabel.text = [items objectAtIndex:indexPath.row];  
-  return cell;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,18 +86,6 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-- (void) addItemsOnTop
-{
-  for (int i = 0; i < 3; i++)
-    [items insertObject:[self createRandomValue] atIndex:0];
-  [self.tableView reloadData];
-  
-  // Call this to indicate that we have finished "refreshing".
-  // This will then result in the headerView being unpinned (-unpinHeaderView will be called).
-  [self refreshCompleted];
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // refresh the list. Do your async calls here.
 //
@@ -118,7 +94,10 @@
   if (![super refresh])
     return NO;
   
+  // Do your async call here
+  // This is just a dummy data loader:
   [self performSelector:@selector(addItemsOnTop) withObject:nil afterDelay:2.0];
+  // See -addItemsOnTop for more info on how to finish loading
   return YES;
 }
 
@@ -160,6 +139,41 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+- (BOOL) loadMore
+{
+  if (![super loadMore])
+    return NO;
+  
+  // Do your async loading here
+  [self performSelector:@selector(addItemsOnBottom) withObject:nil afterDelay:2.0];
+  // See -addItemsOnBottom for more info on what to do after loading more items
+  
+  return YES;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+- (void) dealloc
+{
+  [super dealloc];
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Dummy data methods 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+- (void) addItemsOnTop
+{
+  for (int i = 0; i < 3; i++)
+    [items insertObject:[self createRandomValue] atIndex:0];
+  [self.tableView reloadData];
+  
+  // Call this to indicate that we have finished "refreshing".
+  // This will then result in the headerView being unpinned (-unpinHeaderView will be called).
+  [self refreshCompleted];
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void) addItemsOnBottom
 {
   for (int i = 0; i < 5; i++)
@@ -172,24 +186,43 @@
   else
     self.canLoadMore = YES;
   
+  // Inform STableViewController that we have finished loading more items
   [self loadMoreCompleted];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-- (BOOL) loadMore
+- (NSString *) createRandomValue
 {
-  if (![super loadMore])
-    return NO;
+  NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+  [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
   
-  [self performSelector:@selector(addItemsOnBottom) withObject:nil afterDelay:2.0];
-  
-  return YES;
+  return [NSString stringWithFormat:@"%@ %@", [dateFormatter stringFromDate:[NSDate date]],
+          [NSNumber numberWithInt:rand()]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-- (void) dealloc
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Standard TableView delegates
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  [super dealloc];
+  return items.count;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  static NSString *CellIdentifier = @"Cell";
+  
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+  if (cell == nil) {
+    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault 
+                                   reuseIdentifier:CellIdentifier] autorelease];
+  }
+  
+  cell.textLabel.text = [items objectAtIndex:indexPath.row];  
+  return cell;
 }
 
 @end

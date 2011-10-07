@@ -1,9 +1,7 @@
 //
-//  DemoTableFooterView.h
-//  Demo
+// DemoTableFooterView.h
 //
-//  Created by Shiki on 7/29/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+// @author Shiki
 //
 
 #import <UIKit/UIKit.h>

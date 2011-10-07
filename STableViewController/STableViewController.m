@@ -1,8 +1,7 @@
 //
-//  STableViewController.m
-//  STableViewController
+// STableViewController.m
 //
-//  Created by Shiki on 7/27/11.
+// @author Shiki
 //
 
 #import "STableViewController.h"
