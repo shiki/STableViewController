@@ -32,6 +32,11 @@
 @property (readonly) BOOL isLoadingMore;
 @property (nonatomic) BOOL canLoadMore;
 
+@property (nonatomic) BOOL pullToRefreshEnabled;
+
+// Just a common initialize method
+- (void) initialize;
+
 #pragma mark - Pull to Refresh
 
 // The minimum height that the user should drag down in order to trigger a "refresh" when
