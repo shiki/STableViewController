@@ -207,7 +207,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void) setFooterViewVisibility:(BOOL)visible
 {
-  self.tableView.tableFooterView = visible ? footerView : nil;
+  if (visible && self.tableView.tableFooterView != footerView)
+    self.tableView.tableFooterView = footerView;
+  else if (!visible)
+    self.tableView.tableFooterView = nil;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -283,19 +286,25 @@
 #pragma mark -
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+- (void) releaseViewComponents
+{
+  [headerView release]; headerView = nil;
+  [footerView release]; footerView = nil;
+  [tableView release]; tableView = nil;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void) dealloc
 {
+  [self releaseViewComponents];
   [super dealloc];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void) viewDidUnload
 {
+  [self releaseViewComponents];
   [super viewDidUnload];
-  
-  self.headerView = nil;
-  self.footerView = nil;
-  self.tableView = nil;
 }
 
 @end

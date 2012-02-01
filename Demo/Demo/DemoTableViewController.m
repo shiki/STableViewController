@@ -30,7 +30,7 @@
   [super viewDidLoad];
   
   self.title = @"STableViewController Demo";
-  [self.tableView setBackgroundColor:[UIColor darkGrayColor]];
+  [self.tableView setBackgroundColor:[UIColor lightGrayColor]];
   
   // set the custom view for "pull to refresh". See DemoTableHeaderView.xib.
   NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"DemoTableHeaderView" owner:self options:nil];
@@ -121,7 +121,7 @@
 // Do UI handling after the "load more" process was completed. In this example, -footerView will
 // show a "No more items to load" text.
 //
-- (void)loadMoreCompleted
+- (void) loadMoreCompleted
 {
   [super loadMoreCompleted];
 
@@ -149,12 +149,6 @@
   // See -addItemsOnBottom for more info on what to do after loading more items
   
   return YES;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-- (void) dealloc
-{
-  [super dealloc];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

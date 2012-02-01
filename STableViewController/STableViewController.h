@@ -93,4 +93,8 @@
 // A helper method that calls refreshCompleted and/or loadMoreCompleted if any are active.
 - (void) allLoadingCompleted;
 
+#pragma mark - 
+
+- (void) releaseViewComponents;
+
 @end
