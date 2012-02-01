@@ -81,6 +81,7 @@
     headerView = [aView retain];
     
     CGRect f = headerView.frame;
+    headerView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
     headerView.frame = CGRectMake(f.origin.x, 0 - f.size.height, f.size.width, f.size.height);
     headerViewFrame = headerView.frame;
     
