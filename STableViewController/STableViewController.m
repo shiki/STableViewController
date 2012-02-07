@@ -25,12 +25,16 @@
 
 @synthesize pullToRefreshEnabled;
 
+@synthesize clearsSelectionOnViewWillAppear;
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void) initialize
 {
   pullToRefreshEnabled = YES;
   
   canLoadMore = YES;
+  
+  clearsSelectionOnViewWillAppear = YES;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,6 +68,18 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+- (void) viewWillAppear:(BOOL)animated
+{
+  [super viewWillAppear:animated];
+  
+  if (clearsSelectionOnViewWillAppear) {
+    NSIndexPath *selected = [self.tableView indexPathForSelectedRow];
+    if (selected)
+      [self.tableView deselectRowAtIndexPath:selected animated:animated];
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Pull to Refresh
 
@@ -81,7 +97,6 @@
     headerView = [aView retain];
     
     CGRect f = headerView.frame;
-    headerView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
     headerView.frame = CGRectMake(f.origin.x, 0 - f.size.height, f.size.width, f.size.height);
     headerViewFrame = headerView.frame;
     

@@ -34,6 +34,9 @@
 
 @property (nonatomic) BOOL pullToRefreshEnabled;
 
+// Defaults to YES
+@property (nonatomic) BOOL clearsSelectionOnViewWillAppear;
+
 // Just a common initialize method
 - (void) initialize;
 
