@@ -38,9 +38,9 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-- (id) init
+- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-  if ((self = [super init]))
+  if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     [self initialize];  
   return self;
 }
