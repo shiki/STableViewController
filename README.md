@@ -1,3 +1,4 @@
+**DEPRECATED: This library is no longer maintained. It has been replaced with the newer [SKStatefulTableViewController](http://github.com/shiki/SKStatefulTableViewController).**
 
 STableViewController
 ====================================================================================================
